@@ -1,0 +1,93 @@
+.rangeContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rangeLabel {
+  width: 80px;
+  text-align: center;
+}
+
+.rangeLine {
+  position: relative;
+  flex-grow: 1;
+  height: 4px;
+  background: #ddd;
+  margin: 10px 30px;
+}
+
+.rangeTrack {
+  position: absolute;
+  height: 4px;
+  background: #000;
+}
+
+.rangeBullet {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #000;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translate(-50%, -40%);
+}
+
+.rangeBullet:hover {
+  width: 18px;
+  height: 18px;
+  cursor: grab;
+}
+
+.rangeBullet:active {
+  cursor: grabbing;
+}
+
+/* Add custom styles to input boxes */
+.inputBox {
+  width: 80px;
+  padding: 6px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: textfield;
+}
+
+.inputBox::-webkit-inner-spin-button,
+.inputBox::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+.inputBox:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 5px rgba(0, 91, 187, 0.5);
+}
+
+.inputBox:hover {
+  border-color: #0056b3;
+}
+
+.link {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.link:hover {
+  background-color: #333;
+}

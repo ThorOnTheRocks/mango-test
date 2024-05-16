@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Mango Test
 
-## Getting Started
+This project is a take-home challenge for a frontend position, implemented using Next.js, TypeScript, CSS Modules, and testing with Jest and Cypress.
 
-First, run the development server:
+## Table of Contents
+
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Running the Project](#running-the-project)
+- [Testing](#testing)
+  - [Unit Tests](#unit-tests)
+  - [Integration Tests](#integration-tests)
+  - [End-to-End (E2E) Tests](#end-to-end-e2e-tests)
+- [APIs and Mock Data](#apis-and-mock-data)
+- [Contact](#contact)
+
+## Installation
+
+To install the necessary dependencies, run the following command:
+
+```bash
+npm install
+```
+
+## Running the Project
+
+To start the development server on port 8080, run:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application should now be running at [http://localhost:8080](http://localhost:8080).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Testing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Unit Tests / Integration Tests
 
-## Learn More
+To run unit and integration tests with Jest, use the following command:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run test
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To run tests in watch mode:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+npm run test:watch
+```
 
-## Deploy on Vercel
+To generate a test coverage report:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run test:coverage
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### End-to-End (E2E) Tests
+
+End-to-end tests are also handled by Cypress. You can run the tests in headless mode using:
+
+```bash
+npm run cypress:open
+```
+
+## APIs and Mock Data
+
+### API Endpoints
+
+- `/minmax` - Returns min and max values for the NormalRange component.
+- `/fixed` - Returns fixed range values for the FixedRange component.
+
+### Mock Data
+
+Mock data for testing is provided in the `cypress/fixtures` directory:
+
+- `minmax.json` - Contains mock min and max values.
+- `fixedRange.json` - Contains mock fixed range values.
+
+### Mockable.io
+
+This project uses [Mockable.io](https://www.mockable.io/) to provide mock API endpoints. The endpoints used in this project are:
+
+- `http://demo3363325.mockable.io/minmax` - Returns min and max values.
+- `http://demo3363325.mockable.io/fixed` - Returns fixed range values.
