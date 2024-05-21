@@ -50,7 +50,6 @@
   cursor: grabbing;
 }
 
-/* Add custom styles to input boxes */
 .inputBox {
   width: 80px;
   padding: 6px;
@@ -61,11 +60,13 @@
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 .inputBox::-webkit-inner-spin-button,
 .inputBox::-webkit-outer-spin-button {
-  opacity: 1;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .inputBox:focus {

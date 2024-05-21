@@ -2,7 +2,7 @@ import { getMinMax, getFixedValues } from '../range-service';
 import {
   MIN_MAX_QUERY,
   FIXED_RANGE_QUERY,
-} from '../constants/RangeService.constant';
+} from '../constants/range-service.constant';
 import {
   MinMaxValues,
   FixedRangeValues,
@@ -63,7 +63,7 @@ describe('RangeService', () => {
     expect(global.fetch).toHaveBeenCalledWith(MIN_MAX_QUERY);
   });
 
-  it('should throw an error when fetching fixed range values fails', async () => {
+  it('Should throw an error when fetching fixed range values fails', async () => {
     jest.spyOn(global, 'fetch').mockImplementationOnce(() =>
       Promise.resolve({
         ok: false,

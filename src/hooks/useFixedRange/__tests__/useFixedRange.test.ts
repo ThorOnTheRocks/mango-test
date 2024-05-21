@@ -26,7 +26,7 @@ describe('useFixedRange', () => {
     );
   });
 
-  it('Should update minIndex and maxIndex correctly on dragging', () => {
+  it('Should handle dragging min bullet correctly', () => {
     const sliderRect = {
       left: 0,
       width: 200,
@@ -55,6 +55,20 @@ describe('useFixedRange', () => {
     });
 
     expect(result.current.minIndex).toBe(1);
+  });
+
+  it('Should handle dragging max bullet correctly', () => {
+    const sliderRect = {
+      left: 0,
+      width: 200,
+      right: 200,
+      top: 0,
+      bottom: 100,
+      height: 100,
+      x: 0,
+      y: 0,
+      toJSON: () => {},
+    };
 
     act(() => {
       result.current.startDragging('max');
@@ -62,7 +76,7 @@ describe('useFixedRange', () => {
 
     act(() => {
       result.current.onDrag(
-        new MouseEvent('mousemove', { clientX: 150 }),
+        new MouseEvent('mousemove', { clientX: 100 }),
         sliderRect
       );
     });
@@ -71,6 +85,18 @@ describe('useFixedRange', () => {
       result.current.stopDragging();
     });
 
+    expect(result.current.maxIndex).toBe(3);
+  });
+
+  it('Should move bullets with keyboard correctly', () => {
+    act(() => {
+      result.current.moveBulletWithKeyboard('min', 'right');
+    });
+    expect(result.current.minIndex).toBe(1);
+
+    act(() => {
+      result.current.moveBulletWithKeyboard('max', 'left');
+    });
     expect(result.current.maxIndex).toBe(4);
   });
 });

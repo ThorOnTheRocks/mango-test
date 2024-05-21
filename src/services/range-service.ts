@@ -5,7 +5,7 @@ import {
 import {
   MIN_MAX_QUERY,
   FIXED_RANGE_QUERY,
-} from './constants/RangeService.constant';
+} from './constants/range-service.constant';
 
 async function fetchRangeData<T>(url: string): Promise<T> {
   const res = await fetch(url);

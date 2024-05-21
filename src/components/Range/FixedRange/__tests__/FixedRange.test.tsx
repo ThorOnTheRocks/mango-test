@@ -1,18 +1,15 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { FixedRange } from '../FixedRange';
-import { useFixedRange } from '@/hooks';
+import { useFixedRange, useDragging } from '@/hooks';
 
-jest.mock('../../../../hooks/index', () => ({
-  useFixedRange: jest.fn(),
-  useDragging: jest.fn().mockReturnValue({ current: null }),
-}));
+jest.mock('../../../../hooks/index');
 
 const mockUseFixedRange = {
-  values: [1.99, 5.99, 10.99, 30.99, 50.99, 70.99],
+  values: [1, 5, 10, 20, 30, 50],
   minIndex: 0,
   maxIndex: 5,
+  moveBulletWithKeyboard: jest.fn(),
   startDragging: jest.fn(),
   stopDragging: jest.fn(),
   onDrag: jest.fn(),
@@ -21,6 +18,7 @@ const mockUseFixedRange = {
 describe('FixedRange', () => {
   beforeEach(() => {
     (useFixedRange as jest.Mock).mockReturnValue(mockUseFixedRange);
+    (useDragging as jest.Mock).mockReturnValue({ current: null });
   });
 
   afterEach(() => {
@@ -28,53 +26,47 @@ describe('FixedRange', () => {
   });
 
   it('Should render correctly with given range values', () => {
-    render(
-      <FixedRange
-        rangeValues={[1.99, 5.99, 10.99, 30.99, 50.99, 70.99]}
-      />
-    );
+    render(<FixedRange rangeValues={mockUseFixedRange.values} />);
 
-    expect(screen.getByText('1.99')).toBeInTheDocument();
-    expect(screen.getByText('70.99')).toBeInTheDocument();
+    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('50')).toBeInTheDocument();
     expect(screen.getAllByRole('slider')).toHaveLength(2);
   });
 
-  it('Should call startDragging when min bullet is clicked', async () => {
-    render(
-      <FixedRange
-        rangeValues={[1.99, 5.99, 10.99, 30.99, 50.99, 70.99]}
-      />
-    );
+  it('Should call moveBulletWithKeyboard when ArrowLeft or ArrowRight is pressed', () => {
+    render(<FixedRange rangeValues={mockUseFixedRange.values} />);
 
     const minSlider = screen.getAllByRole('slider')[0];
-    await userEvent.click(minSlider);
-    await userEvent.pointer([
-      {
-        keys: '[MouseLeft]',
-        target: minSlider,
-      },
-    ]);
+    fireEvent.keyDown(minSlider, { key: 'ArrowRight' });
+
+    expect(
+      mockUseFixedRange.moveBulletWithKeyboard
+    ).toHaveBeenCalledWith('min', 'right');
+
+    const maxSlider = screen.getAllByRole('slider')[1];
+    fireEvent.keyDown(maxSlider, { key: 'ArrowLeft' });
+
+    expect(
+      mockUseFixedRange.moveBulletWithKeyboard
+    ).toHaveBeenCalledWith('max', 'left');
+  });
+
+  it('Should call startDragging when min bullet is clicked', () => {
+    render(<FixedRange rangeValues={mockUseFixedRange.values} />);
+
+    const minSlider = screen.getAllByRole('slider')[0];
+    fireEvent.mouseDown(minSlider);
 
     expect(mockUseFixedRange.startDragging).toHaveBeenCalledWith(
       'min'
     );
   });
 
-  it('Should call startDragging when max bullet is clicked', async () => {
-    render(
-      <FixedRange
-        rangeValues={[1.99, 5.99, 10.99, 30.99, 50.99, 70.99]}
-      />
-    );
+  it('Should call startDragging when max bullet is clicked', () => {
+    render(<FixedRange rangeValues={mockUseFixedRange.values} />);
 
     const maxSlider = screen.getAllByRole('slider')[1];
-    await userEvent.click(maxSlider);
-    await userEvent.pointer([
-      {
-        keys: '[MouseLeft]',
-        target: maxSlider,
-      },
-    ]);
+    fireEvent.mouseDown(maxSlider);
 
     expect(mockUseFixedRange.startDragging).toHaveBeenCalledWith(
       'max'

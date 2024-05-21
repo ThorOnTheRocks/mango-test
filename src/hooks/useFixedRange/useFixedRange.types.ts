@@ -11,4 +11,8 @@ export type UseFixedRangeReturn = {
   startDragging: (bullet: DraggingState) => void;
   stopDragging: () => void;
   onDrag: (event: MouseEvent, sliderRect: DOMRect) => void;
+  moveBulletWithKeyboard: (
+    bullet: 'min' | 'max',
+    direction: 'left' | 'right'
+  ) => void;
 };

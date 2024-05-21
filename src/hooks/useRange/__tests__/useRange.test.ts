@@ -20,34 +20,55 @@ describe('useRange', () => {
   it('Should initialize with correct values', () => {
     expect(result.current.minValue).toBe(mockInitialValues.min);
     expect(result.current.maxValue).toBe(mockInitialValues.max);
+    expect(result.current.minInput).toBe(
+      String(mockInitialValues.min)
+    );
+    expect(result.current.maxInput).toBe(
+      String(mockInitialValues.max)
+    );
   });
 
-  it('Should update minValue correctly', () => {
+  it('Should update minInput correctly', () => {
     act(() => {
-      result.current.updateMinValue(20);
+      result.current.updateMinInput('20');
+    });
+    expect(result.current.minInput).toBe('20');
+  });
+
+  it('Should update maxInput correctly', () => {
+    act(() => {
+      result.current.updateMaxInput('80');
+    });
+    expect(result.current.maxInput).toBe('80');
+  });
+
+  it('Should validate and update minValue correctly', () => {
+    act(() => {
+      result.current.updateMinInput('20');
+    });
+    act(() => {
+      result.current.validateMinValue();
     });
     expect(result.current.minValue).toBe(20);
+    expect(result.current.minInput).toBe('20');
   });
 
-  it('Should update maxValue correctly', () => {
+  it('Should validate and update maxValue correctly', () => {
     act(() => {
-      result.current.updateMaxValue(80);
+      result.current.updateMaxInput('80');
+    });
+    act(() => {
+      result.current.validateMaxValue();
     });
     expect(result.current.maxValue).toBe(80);
+    expect(result.current.maxInput).toBe('80');
   });
 
   it('Should handle dragging min bullet correctly', () => {
     const sliderRect = {
       left: 0,
       width: 200,
-      right: 200,
-      top: 0,
-      bottom: 100,
-      height: 100,
-      x: 0,
-      y: 0,
-      toJSON: () => {},
-    };
+    } as DOMRect;
 
     act(() => {
       result.current.startDragging('min');
@@ -65,20 +86,14 @@ describe('useRange', () => {
     });
 
     expect(result.current.minValue).toBe(25);
+    expect(result.current.minInput).toBe('25');
   });
 
   it('Should handle dragging max bullet correctly', () => {
     const sliderRect = {
       left: 0,
       width: 200,
-      right: 200,
-      top: 0,
-      bottom: 100,
-      height: 100,
-      x: 0,
-      y: 0,
-      toJSON: () => {},
-    };
+    } as DOMRect;
 
     act(() => {
       result.current.startDragging('max');
@@ -96,5 +111,34 @@ describe('useRange', () => {
     });
 
     expect(result.current.maxValue).toBe(75);
+    expect(result.current.maxInput).toBe('75');
+  });
+
+  it('Should move min bullet with keyboard correctly', () => {
+    act(() => {
+      result.current.moveBulletWithKeyboard('min', 'right');
+    });
+    expect(result.current.minValue).toBe(1);
+    expect(result.current.minInput).toBe('1');
+
+    act(() => {
+      result.current.moveBulletWithKeyboard('min', 'left');
+    });
+    expect(result.current.minValue).toBe(0);
+    expect(result.current.minInput).toBe('0');
+  });
+
+  it('Should move max bullet with keyboard correctly', () => {
+    act(() => {
+      result.current.moveBulletWithKeyboard('max', 'left');
+    });
+    expect(result.current.maxValue).toBe(99);
+    expect(result.current.maxInput).toBe('99');
+
+    act(() => {
+      result.current.moveBulletWithKeyboard('max', 'right');
+    });
+    expect(result.current.maxValue).toBe(100);
+    expect(result.current.maxInput).toBe('100');
   });
 });

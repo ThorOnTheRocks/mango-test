@@ -1,10 +1,9 @@
-import { defineConfig } from 'cypress';
+import { defineConfig } from 'cypress'
 
 export default defineConfig({
+  fixturesFolder: 'cypress/fixtures',
   e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
+    setupNodeEvents(on, config) {},
     baseUrl: 'http://localhost:8080',
   },
-});
+})

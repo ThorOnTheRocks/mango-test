@@ -19,13 +19,13 @@ export function useFixedRange({
     setMaxIndex(rangeValues.length - 1);
   }, [rangeValues]);
 
-  const startDragging = (bullet: DraggingState) => {
+  const startDragging = useCallback((bullet: DraggingState) => {
     setDragging(bullet);
-  };
+  }, []);
 
-  const stopDragging = () => {
+  const stopDragging = useCallback(() => {
     setDragging(null);
-  };
+  }, []);
 
   const onDrag = useCallback(
     (event: MouseEvent, sliderRect: DOMRect) => {
@@ -46,6 +46,25 @@ export function useFixedRange({
     [dragging, maxIndex, minIndex, values.length]
   );
 
+  const moveBulletWithKeyboard = useCallback(
+    (bullet: 'min' | 'max', direction: 'left' | 'right') => {
+      if (bullet === 'min') {
+        const newMinIndex =
+          direction === 'left'
+            ? Math.max(0, minIndex - 1)
+            : Math.min(maxIndex - 1, minIndex + 1);
+        setMinIndex(newMinIndex);
+      } else {
+        const newMaxIndex =
+          direction === 'left'
+            ? Math.max(minIndex + 1, maxIndex - 1)
+            : Math.min(values.length - 1, maxIndex + 1);
+        setMaxIndex(newMaxIndex);
+      }
+    },
+    [minIndex, maxIndex, values.length]
+  );
+
   return {
     values,
     minIndex,
@@ -53,5 +72,6 @@ export function useFixedRange({
     startDragging,
     stopDragging,
     onDrag,
+    moveBulletWithKeyboard,
   };
 }
